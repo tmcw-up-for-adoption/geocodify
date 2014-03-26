@@ -4,7 +4,11 @@ Geocode streaming CSV data, producing GeoJSON. Requires either
 an environment variable called `MAPBOX_MAPID` pointing to a mapid, or a
 command line `--mapid=youraccount.map` argument.
 
-usage:
+## install
+
+    npm install -g geocodify
+
+## use
 
 CSV to geocoded CSV
 
