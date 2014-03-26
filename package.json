@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "description": "geocode spreadsheet files",
   "main": "index.js",
-  "scripts": {
-    "test": "tap test/*.js"
+  "bin": {
+    "geocodify": "index.js"
   },
   "repository": {
     "type": "git",
@@ -26,13 +26,10 @@
   "dependencies": {
     "binary-csv": "~0.1.7",
     "csv-write-stream": "~0.1.1",
-    "minimist": "0.0.8",
     "through2": "~0.4.1",
     "concat-stream": "~1.4.4",
     "xtend": "~2.2.0",
-    "through": "~2.3.4",
-    "jsonstream": "0.0.1",
     "JSONStream": "~0.8.0",
-    "combined-stream": "0.0.4"
+    "subarg": "0.0.1"
   }
 }

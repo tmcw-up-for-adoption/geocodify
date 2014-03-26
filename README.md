@@ -19,3 +19,7 @@ CSV to GeoJSON to KML
 
     npm install -g tokml
     geocodify --output=geojson < file.csv | tokml
+
+Manually specify address fields
+
+    geocodify --addressfields [ columnname othercolumn ] < atypical.csv

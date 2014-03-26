@@ -1,13 +1,14 @@
+#!/usr/bin/env node
+
 var binaryCSV = require('binary-csv'),
     fs = require('fs'),
     xtend = require('xtend'),
     stream = require('stream'),
     http = require('http'),
     JSONStream = require('JSONStream'),
-    combinedStream = require('combined-stream'),
     through = require('through2'),
     concat = require('concat-stream'),
-    argv = require('minimist')(process.argv.slice(2)),
+    argv = require('subarg')(process.argv.slice(2)),
     csvWriter = require('csv-write-stream');
 
 var mapid = argv.mapid || process.env.MAPBOX_MAPID;
@@ -22,7 +23,11 @@ var source = argv._[0] && fs.createReadStream(argv._[0]) || process.stdin;
 argv.format = argv.format || 'csv';
 argv.output = argv.output || 'csv';
 
-var encode, transform;
+var encode, transform, addressFields = null;
+
+if (argv.addressfields) {
+    addressFields = argv.addressfields._;
+}
 
 if (argv.output == 'csv') {
     transform = new stream.PassThrough();
@@ -86,7 +91,28 @@ function geocode(address, callback) {
 }
 
 function address(o) {
-    return o.address;
+    if (addressFields === null) {
+        addressFields = Object.keys(o).filter(addressField);
+        if (addressFields.length === 0) {
+            help();
+            throw new Error('no address fields specified and none autodetected.');
+        }
+    }
+    return addressFields.map(function(key) {
+        return o[key];
+    }).join(' ');
+}
+
+function addressField(key) {
+    return key.match(/address/) ||
+        key.match(/city/) ||
+        key.match(/street/) ||
+        key.match(/country/) ||
+        key.match(/zip/) ||
+        key.match(/postcode/) ||
+        key.match(/territory/) ||
+        key.match(/province/) ||
+        key.match(/nation/);
 }
 
 function help() {
