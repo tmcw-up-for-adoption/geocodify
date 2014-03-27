@@ -70,6 +70,29 @@ var sources = {
             return 'http://open.mapquestapi.com/nominatim/v1/search.php?format=json&q=' +
                 encodeURIComponent(address);
         }
+    },
+    twofishes: function geocode(address, callback) {
+        http.get(geocodeUrl(address), function(res) {
+            res.pipe(concat(function(buf) {
+                var data = JSON.parse(buf);
+                if (data &&
+                    data.interpretations &&
+                    data.interpretations.length &&
+                    data.interpretations[0].feature.geometry &&
+                    data.interpretations[0].feature.geometry.center) {
+                    callback(null, {
+                        lat: data.interpretations[0].feature.geometry.center.lat,
+                        lon: data.interpretations[0].feature.geometry.center.lng
+                    });
+                } else {
+                    callback('no result');
+                }
+            }));
+        });
+        function geocodeUrl(address) {
+            return 'http://demo.twofishes.net/?query=' +
+                encodeURIComponent(address);
+        }
     }
 };
 

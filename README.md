@@ -21,6 +21,11 @@ Geocode streaming CSV data, producing CSV or GeoJSON.
 
 * Worldwide
 
+`twofishes`: [Twofishes](http://demo.twofishes.net/)
+
+* Worldwide
+* Coarse (not street-level)
+
 ## options
 
 The input is either the first positional argument, like
@@ -50,7 +55,7 @@ Selecting `--output=geojson` encodes results as [GeoJSON](http://geojson.org/)
 
 See **geocoders** above for details
 
-    --source={census,mapbox,mapquestopen}
+    --source={census,mapbox,mapquestopen,twofishes}
 
 ## use
 
