@@ -22,8 +22,7 @@ The output is always `stdout`. To write to a file, just
 
 The only currently supported input format is CSV
 
-    input format
-        --format={csv}
+    --format={csv}
 
 The input method will attempt to automatically choose fields that are
 geographic. You can specify manual fields if you want:
@@ -32,16 +31,14 @@ geographic. You can specify manual fields if you want:
 
 Selecting `--output=geojson` encodes results as [GeoJSON](http://geojson.org/)
 
-    output format
-        --output={csv,geojson}
+    --output={csv,geojson}
 
 Use either [Mapbox](https://www.mapbox.com/) or the
 [US Census](http://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf) geocoder.
 Using Mapbox requires either an environment variable called `MAPBOX_MAPID` pointing to a mapid, or a
 command line `--mapid=youraccount.map` argument.
 
-    geocoder
-        --source={census,mapbox}
+    --source={census,mapbox}
 
 ## use
 
