@@ -51,6 +51,25 @@ var sources = {
                 encodeURIComponent(address) +
                 '&benchmark=9&format=json';
         }
+    },
+    mapquestopen: function geocode(address, callback) {
+        http.get(geocodeUrl(address), function(res) {
+            res.pipe(concat(function(buf) {
+                var data = JSON.parse(buf);
+                if (data && data.length) {
+                    callback(null, {
+                        lat: data[0].lat,
+                        lon: data[0].lon
+                    });
+                } else {
+                    callback('no result');
+                }
+            }));
+        });
+        function geocodeUrl(address) {
+            return 'http://open.mapquestapi.com/nominatim/v1/search.php?format=json&q=' +
+                encodeURIComponent(address);
+        }
     }
 };
 

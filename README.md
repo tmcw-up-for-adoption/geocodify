@@ -6,6 +6,21 @@ Geocode streaming CSV data, producing CSV or GeoJSON.
 
     npm install -g geocodify
 
+## geocoders
+
+`mapbox`: [Mapbox Web Services API](https://www.mapbox.com/developers/api/)
+
+* Worldwide
+* Requires `mapid`
+
+`census`: [US Census](http://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf)
+
+* US-Only
+
+`mapquestopen`: [MapQuest Open Nominatim](http://open.mapquestapi.com/nominatim/)
+
+* Worldwide
+
 ## options
 
 The input is either the first positional argument, like
@@ -33,12 +48,9 @@ Selecting `--output=geojson` encodes results as [GeoJSON](http://geojson.org/)
 
     --output={csv,geojson}
 
-Use either [Mapbox](https://www.mapbox.com/) or the
-[US Census](http://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf) geocoder.
-Using Mapbox requires either an environment variable called `MAPBOX_MAPID` pointing to a mapid, or a
-command line `--mapid=youraccount.map` argument.
+See **geocoders** above for details
 
-    --source={census,mapbox}
+    --source={census,mapbox,mapquestopen}
 
 ## use
 
