@@ -8,7 +8,25 @@ command line `--mapid=youraccount.map` argument.
 
     npm install -g geocodify
 
+## options
+
+    input format
+
+        --format={csv}
+
+    output format
+
+        --output={csv,geojson}
+
+    geocoder
+
+        --source={census,mapbox}
+
 ## use
+
+Use the US Census (USA only)
+
+    geocodify --source=census < file.csv > geocoded.csv
 
 CSV to geocoded CSV
 

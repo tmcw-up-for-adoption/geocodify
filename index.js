@@ -11,6 +11,49 @@ var binaryCSV = require('binary-csv'),
     argv = require('subarg')(process.argv.slice(2)),
     csvWriter = require('csv-write-stream');
 
+var sources = {
+    mapbox: function geocode(address, callback) {
+        http.get(geocodeUrl(address), function(res) {
+            res.pipe(concat(function(buf) {
+                var data = JSON.parse(buf);
+                if (data && data.results) {
+                    callback(null, {
+                        lat: data.results[0][0].lat,
+                        lon: data.results[0][0].lon
+                    });
+                } else {
+                    callback('no result');
+                }
+            }));
+        });
+        function geocodeUrl(address) {
+            return 'http://api.tiles.mapbox.com/v3/' +
+                mapid + '/geocode/' +
+                encodeURIComponent(address) + '.json';
+        }
+    },
+    census: function geocode(address, callback) {
+        http.get(geocodeUrl(address), function(res) {
+            res.pipe(concat(function(buf) {
+                var data = JSON.parse(buf);
+                if (data && data.result.addressMatches) {
+                    callback(null, {
+                        lat: data.result.addressMatches[0].coordinates.y,
+                        lon: data.result.addressMatches[0].coordinates.x
+                    });
+                } else {
+                    callback('no result');
+                }
+            }));
+        });
+        function geocodeUrl(address) {
+            return 'http://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=' +
+                encodeURIComponent(address) +
+                '&benchmark=9&format=json';
+        }
+    }
+};
+
 var mapid = argv.mapid || process.env.MAPBOX_MAPID;
 
 if (!mapid || argv.help || argv.h || (!argv._.length && process.stdin.isTTY)) {
@@ -22,11 +65,17 @@ var source = argv._[0] && fs.createReadStream(argv._[0]) || process.stdin;
 
 argv.format = argv.format || 'csv';
 argv.output = argv.output || 'csv';
+argv.source = argv.source || 'mapbox';
 
 var encode, transform, addressFields = null;
 
 if (argv.addressfields) {
     addressFields = argv.addressfields._;
+}
+
+if (!sources[argv.source]) {
+    help();
+    throw new Error('source ' + argv.source + ' not found');
 }
 
 if (argv.output == 'csv') {
@@ -56,7 +105,7 @@ if (argv.format == 'csv') {
     source
         .pipe(binaryCSV({json:true}))
         .pipe(through.obj(function(chunk, enc, callback) {
-            geocode(address(chunk), function(err, center) {
+            sources[argv.source](address(chunk), function(err, center) {
                 if (center) {
                     this.push(xtend(chunk, center));
                 }
@@ -68,27 +117,6 @@ if (argv.format == 'csv') {
         .pipe(process.stdout);
 }
 
-function geocodeUrl(address) {
-    return 'http://api.tiles.mapbox.com/v3/' +
-        mapid + '/geocode/' +
-        encodeURIComponent(address) + '.json';
-}
-
-function geocode(address, callback) {
-    http.get(geocodeUrl(address), function(res) {
-        res.pipe(concat(function(buf) {
-            var data = JSON.parse(buf);
-            if (data && data.results) {
-                callback(null, {
-                    lat: data.results[0][0].lat,
-                    lon: data.results[0][0].lon
-                });
-            } else {
-                callback('no result');
-            }
-        }));
-    });
-}
 
 function address(o) {
     if (addressFields === null) {
