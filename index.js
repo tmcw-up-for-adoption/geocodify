@@ -56,16 +56,16 @@ var sources = {
 
 var mapid = argv.mapid || process.env.MAPBOX_MAPID;
 
-if (!mapid || argv.help || argv.h || (!argv._.length && process.stdin.isTTY)) {
+argv.format = argv.format || 'csv';
+argv.output = argv.output || 'csv';
+argv.source = argv.source || 'mapbox';
+
+if ((argv.source === 'mapbox' && !mapid) || argv.help || argv.h || (!argv._.length && process.stdin.isTTY)) {
     return help();
 }
 
 var throttle = 1000;
 var source = argv._[0] && fs.createReadStream(argv._[0]) || process.stdin;
-
-argv.format = argv.format || 'csv';
-argv.output = argv.output || 'csv';
-argv.source = argv.source || 'mapbox';
 
 var encode, transform, addressFields = null;
 

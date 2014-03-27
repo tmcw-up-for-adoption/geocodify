@@ -1,8 +1,6 @@
 # geocodify
 
-Geocode streaming CSV data, producing GeoJSON. Requires either
-an environment variable called `MAPBOX_MAPID` pointing to a mapid, or a
-command line `--mapid=youraccount.map` argument.
+Geocode streaming CSV data, producing CSV or GeoJSON.
 
 ## install
 
@@ -10,16 +8,39 @@ command line `--mapid=youraccount.map` argument.
 
 ## options
 
-    input format
+The input is either the first positional argument, like
 
+    geocodify input.csv
+
+Or a stream, like
+
+    cat input.csv | geocodify
+
+The output is always `stdout`. To write to a file, just
+
+    geocodify input.csv > output.csv
+
+The only currently supported input format is CSV
+
+    input format
         --format={csv}
 
-    output format
+The input method will attempt to automatically choose fields that are
+geographic. You can specify manual fields if you want:
 
+    --addressfields [ afieldname anotherfield ]
+
+Selecting `--output=geojson` encodes results as [GeoJSON](http://geojson.org/)
+
+    output format
         --output={csv,geojson}
 
-    geocoder
+Use either [Mapbox](https://www.mapbox.com/) or the
+[US Census](http://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf) geocoder.
+Using Mapbox requires either an environment variable called `MAPBOX_MAPID` pointing to a mapid, or a
+command line `--mapid=youraccount.map` argument.
 
+    geocoder
         --source={census,mapbox}
 
 ## use
