@@ -1,6 +1,6 @@
 {
   "name": "geocodify",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "geocode spreadsheet files",
   "main": "index.js",
   "bin": {
