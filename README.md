@@ -26,6 +26,11 @@ Geocode streaming CSV data, producing CSV or GeoJSON.
 * Worldwide
 * Coarse (not street-level)
 
+`geogratis`: [Geogratis](http://geogratis.gc.ca/site/eng/geoloc)
+
+* Canada-Only
+* Unforgiving address input format, see [Geogratis] for details.
+
 ## options
 
 The input is either the first positional argument, like
