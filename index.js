@@ -32,6 +32,27 @@ var sources = {
                 encodeURIComponent(address) + '.json';
         }
     },
+    geogratis: function geocode(address, callback) {
+        http.get(geocodeUrl(address), function(res) {
+            res.pipe(concat(function(buf) {
+                var data = JSON.parse(buf);
+                if (data && data.length > 0) {
+                    callback(null, {
+                        lat: data[0].geometry.coordinates[1],
+                        lon: data[0].geometry.coordinates[0]
+                    });
+                } else {
+                    callback('no result');
+                }
+            }));
+        });
+        function geocodeUrl(address) {
+            return 'http://geogratis.gc.ca/services/geolocation/en/locate?q=' +
+                encodeURIComponent(address)
+                    // Geogratis' address format isn't very forgiving...
+                    .replace(/canada/i, '').trim();
+        }
+    },
     census: function geocode(address, callback) {
         http.get(geocodeUrl(address), function(res) {
             res.pipe(concat(function(buf) {
