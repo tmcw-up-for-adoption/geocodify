@@ -29,7 +29,7 @@ Geocode streaming CSV data, producing CSV or GeoJSON.
 `geogratis`: [Geogratis](http://geogratis.gc.ca/site/eng/geoloc)
 
 * Canada-Only
-* Unforgiving address input format, see [Geogratis] for details.
+* Unforgiving address input format, see [service documentation](http://geogratis.gc.ca/site/eng/geoloc) for details.
 
 ## options
 
