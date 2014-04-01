@@ -142,7 +142,9 @@ if (!sources[argv.source]) {
 }
 
 if (argv.output == 'csv') {
-    transform = new stream.PassThrough();
+    transform = new stream.PassThrough({
+        objectMode: true
+    });
     encode = csvWriter();
 } else if (argv.output == 'geojson') {
     transform = through.obj(function(obj, enc, callback) {
