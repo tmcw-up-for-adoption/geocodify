@@ -60,7 +60,7 @@ Selecting `--output=geojson` encodes results as [GeoJSON](http://geojson.org/)
 
 See **geocoders** above for details
 
-    --source={census,mapbox,mapquestopen,twofishes}
+    --source={census,mapbox,mapquestopen,twofishes,geogratis}
 
 ## use
 
