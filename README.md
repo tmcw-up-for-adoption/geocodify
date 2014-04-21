@@ -85,3 +85,11 @@ CSV to GeoJSON to KML
 Manually specify address fields
 
     geocodify --addressfields [ columnname othercolumn ] < atypical.csv
+
+## API
+
+### `geocodify(source, addressFields, mapid)`
+
+Returns a transform stream. Source is a geocoder, addressFields is an
+array of fields, mapid is a Mapbox map id. Transforms JSON objects
+into geocoded JSON objects.
