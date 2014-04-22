@@ -6,6 +6,9 @@
   "bin": {
     "geocodify": "index.js"
   },
+  "scripts": {
+    "test": "tap test/*.js"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/tmcw/geocodify.git"
@@ -31,5 +34,8 @@
     "xtend": "~2.2.0",
     "JSONStream": "~0.8.0",
     "subarg": "0.0.1"
+  },
+  "devDependencies": {
+    "tap": "~0.4.8"
   }
 }

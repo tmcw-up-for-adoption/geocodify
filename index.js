@@ -77,8 +77,8 @@ module.exports = function(source, addressFields, mapid) {
                     var data = JSON.parse(buf);
                     if (data && data.length) {
                         callback(null, {
-                            lat: data[0].lat,
-                            lon: data[0].lon
+                            lat: parseFloat(data[0].lat),
+                            lon: parseFloat(data[0].lon)
                         });
                     } else {
                         callback('no result');
@@ -133,10 +133,7 @@ module.exports = function(source, addressFields, mapid) {
     function address(o) {
         if (addressFields === undefined) {
             addressFields = Object.keys(o).filter(addressField);
-            if (addressFields.length === 0) {
-                help();
-                throw new Error('no address fields specified and none autodetected.');
-            }
+            if (addressFields.length === 0) return null;
         }
         return addressFields.map(function(key) {
             return o[key];
@@ -156,7 +153,11 @@ module.exports = function(source, addressFields, mapid) {
     }
 
     return through.obj(function(chunk, enc, callback) {
-        sources[source](address(chunk), function(err, center) {
+        var addresses = address(chunk);
+        if (addresses === null) {
+            return this.emit('error', new Error('No addresses provided or found in input data'));
+        }
+        sources[source](addresses, function(err, center) {
             if (center) {
                 this.push(xtend(chunk, center));
             }

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tmcw/geocodify.svg)](https://travis-ci.org/tmcw/geocodify)
+
 # geocodify
 
 Geocode streaming CSV data, producing CSV or GeoJSON.
