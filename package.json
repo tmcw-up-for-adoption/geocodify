@@ -4,7 +4,7 @@
   "description": "geocode spreadsheet files",
   "main": "index.js",
   "bin": {
-    "geocodify": "index.js"
+    "geocodify": "geocodify.js"
   },
   "scripts": {
     "test": "tap test/*.js"
