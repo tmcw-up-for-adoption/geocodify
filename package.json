@@ -28,7 +28,7 @@
   "homepage": "https://github.com/tmcw/geocodify",
   "dependencies": {
     "binary-csv": "~0.1.7",
-    "csv-write-stream": "~0.1.1",
+    "csv-write-stream": "0.2.0",
     "through2": "~0.4.1",
     "concat-stream": "~1.4.4",
     "xtend": "~2.2.0",

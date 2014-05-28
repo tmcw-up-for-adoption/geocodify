@@ -5,14 +5,20 @@ var geocodify = require('./'),
     binaryCSV = require('binary-csv'),
     stream = require('stream'),
     csvWriter = require('csv-write-stream'),
+    through = require('through2'),
+    JSONStream = require('JSONStream'),
     argv = require('subarg')(process.argv.slice(2));
 
-var mapid = argv.mapid || process.env.MAPBOX_MAPID;
+argv.mapbox_mapid = argv.mapbox_mapid || process.env.MAPBOX_MAPID;
 
-var output = argv.output || 'csv';
-argv.source = argv.source || 'mapbox';
+var output = argv.f || argv.output || 'csv';
+argv.source = argv.s || argv.source || 'mapbox';
 
-if ((argv.source === 'mapbox' && !mapid) || argv.help || argv.h || (!argv._.length && process.stdin.isTTY)) {
+if (argv.r || argv.require) {
+    geocodify.use(require(argv.r || argv.require));
+}
+
+if (argv.help || argv.h || (!argv._.length && process.stdin.isTTY)) {
     return help();
 }
 
@@ -39,11 +45,24 @@ if (output == 'csv') {
 
 source
     .pipe(binaryCSV({json:true}))
-    .pipe(geocodify(argv.source, addressFields, mapid))
+    .pipe(geocodify(argv.source, addressFields, argv))
     .pipe(transform)
     .pipe(encode)
     .pipe(process.stdout);
 
 function help() {
     process.stdout.write(fs.readFileSync(__dirname + '/README.md'));
+}
+
+function makePoint(obj, enc, callback) {
+    var feature = {
+        type: 'Feature',
+        properties: obj,
+        geometry: {
+            type: 'Point',
+            coordinates: [obj.lon, obj.lat]
+        }
+    };
+    this.push(feature);
+    callback();
 }

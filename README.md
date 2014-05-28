@@ -8,6 +8,17 @@ Geocode streaming CSV data, producing CSV or GeoJSON.
 
     npm install -g geocodify
 
+## plugins
+
+geocodify supports plugins. For example:
+
+```sh
+$ # install a plugin
+$ npm install geocodify-nullisland
+$ # use it: require the module geocodify-nullisland and use its source
+$ geocodify -r geocodify-nullisland -s nullisland test.csv
+```
+
 ## geocoders
 
 `mapbox`: [Mapbox Web Services API](https://www.mapbox.com/developers/api/)
