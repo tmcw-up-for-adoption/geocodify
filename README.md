@@ -2,6 +2,8 @@
 
 # geocodify
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/tmcw/geocodify.svg)](https://greenkeeper.io/)
+
 Geocode streaming CSV data, producing CSV or GeoJSON.
 
 ## install
