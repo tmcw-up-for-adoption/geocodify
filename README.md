@@ -44,6 +44,10 @@ $ geocodify -r geocodify-nullisland -s nullisland test.csv
 * Canada-Only
 * Unforgiving address input format, see [service documentation](http://geogratis.gc.ca/site/eng/geoloc) for details.
 
+`here`: [HERE Geocoder API](https://developer.here.com/documentation/geocoder/topics/what-is.html)
+
+* Worldwide
+
 ## options
 
 The input is either the first positional argument, like
@@ -73,7 +77,7 @@ Selecting `--output=geojson` encodes results as [GeoJSON](http://geojson.org/)
 
 See **geocoders** above for details
 
-    --source={census,mapbox,mapquestopen,twofishes,geogratis}
+    --source={census,mapbox,mapquestopen,twofishes,geogratis,here}
 
 ## use
 
