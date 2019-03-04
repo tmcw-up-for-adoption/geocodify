@@ -1,12 +1,33 @@
 var xtend = require('xtend'),
     stream = require('stream'),
     http = require('http'),
+    https = require('https'),
     through = require('through2'),
     concat = require('concat-stream');
 
 var throttle = 1000;
 
 var sources = {
+    here: function geocode(address, options, callback) {
+        https.get(geocodeUrl(address), function(res) {
+            res.pipe(concat(function(buf) {
+                var data = JSON.parse(buf);
+                if (data && data.Response) {
+                    callback(null, {
+                        lat: data.Response.View[0].Result[0].Location.DisplayPosition.Latitude,
+                        lon: data.Response.View[0].Result[0].Location.DisplayPosition.Longitude
+                    });
+                } else {
+                    callback('no result');
+                }
+            }));
+        });
+        function geocodeUrl(address) {
+            return 'https://geocoder.api.here.com/6.2/geocode.json?app_id='+
+                options.here_app_id+'&app_code='+options.here_app_code+
+                "&searchtext="+encodeURIComponent(address);
+        }
+    },
     mapbox: function geocode(address, options, callback) {
         http.get(geocodeUrl(address), function(res) {
             res.pipe(concat(function(buf) {

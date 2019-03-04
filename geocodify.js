@@ -10,6 +10,8 @@ var geocodify = require('./'),
     argv = require('subarg')(process.argv.slice(2));
 
 argv.mapbox_mapid = argv.mapbox_mapid || process.env.MAPBOX_MAPID;
+argv.here_app_id = argv.here_app_id || process.env.HEREAPPID;
+argv.here_app_code = argv.here_app_code || process.env.HEREAPPCODE;
 
 var output = argv.f || argv.output || 'csv';
 argv.source = argv.s || argv.source || 'mapbox';
